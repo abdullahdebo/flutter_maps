@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_maps/constants/strings.dart';
+import 'package:flutter_maps/presentation/Screens/otp_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants/my_colors.dart';
@@ -8,10 +10,12 @@ import '../../constants/my_colors.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
+  final GlobalKey<FormState> _phoneFormKey = GlobalKey();
   late String phoneNumber;
 
   Widget _buildIntroText() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'What Is Your Phone Number ?',
@@ -99,17 +103,19 @@ class LoginScreen extends StatelessWidget {
   }
 
   String generateCountryFlag() {
-    String countryCode = 'sy';
+    String countryCode = 'sa';
     String flag = countryCode.toUpperCase().replaceAllMapped(RegExp(r'[A-Z]'),
         (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397));
     return flag;
   }
 
-  Widget _buildNextButton() {
+  Widget _buildNextButton(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, otpScreen);
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.black,
           minimumSize: Size(110, 50),
@@ -134,7 +140,7 @@ class LoginScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Form(
-          key: UniqueKey(),
+          key: _phoneFormKey,
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 32, vertical: 88),
             child: Column(
@@ -146,7 +152,7 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 60,
                 ),
-                _buildNextButton(),
+                _buildNextButton(context),
               ],
             ),
           ),
