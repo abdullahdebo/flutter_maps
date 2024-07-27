@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps/business_logic/cubit/phone_auth/phone_auth_cubit.dart';
 import 'package:flutter_maps/constants/strings.dart';
-import 'package:flutter_maps/presentation/Screens/otp_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants/my_colors.dart';

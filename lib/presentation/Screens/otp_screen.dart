@@ -156,7 +156,7 @@ class OtpScreen extends StatelessWidget {
         }
 
         if (state is ErrorOccured) {
-          Navigator.pop(context);
+          // Navigator.pop(context);
           String errorMsg = (state).errorMsg;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

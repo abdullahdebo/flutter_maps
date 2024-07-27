@@ -1,7 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_maps/app_router.dart';
+import 'package:flutter_maps/constants/strings.dart';
+
+late String initialRoute;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +17,14 @@ void main() async {
       projectId: 'flutter-maps-275ca',
     ),
   );
+
+  FirebaseAuth.instance.authStateChanges().listen((User) {
+    if (User == Null) {
+      initialRoute = loginScreen;
+    } else {
+      initialRoute = mapScreen;
+    }
+  });
 
   runApp(
     MyApp(
@@ -33,6 +45,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.generateRoute,
+      initialRoute: initialRoute,
     );
   }
 }
