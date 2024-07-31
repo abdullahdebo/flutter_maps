@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_maps/business_logic/cubit/maps/maps_cubit.dart';
 import 'package:flutter_maps/business_logic/cubit/phone_auth/phone_auth_cubit.dart';
+import 'package:flutter_maps/data/repository/maps_repo.dart';
+import 'package:flutter_maps/data/webservices/PlacesWebservices.dart';
 import 'package:flutter_maps/presentation/Screens/login_screen.dart';
 import 'package:flutter_maps/presentation/Screens/map_screen.dart';
 import 'package:flutter_maps/presentation/Screens/otp_screen.dart';
@@ -19,7 +22,11 @@ class AppRouter {
     switch (settings.name) {
       case mapScreen:
         return MaterialPageRoute(
-          builder: (_) => MapScreen(),
+          builder: (_) => BlocProvider(
+            create: (BuildContext context) =>
+                MapsCubit(MapsRepository(PlacesWebServices())),
+            child: MapScreen(),
+          ),
         );
 
       case loginScreen:

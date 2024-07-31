@@ -45,6 +45,16 @@ class MyDrawer extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        //     BlocProvider<PhoneAuthCubit>(
+        //   create: (context) => phoneAuthCubit,
+        //   child: Text(
+        //     '${phoneAuthCubit.getLoggedInUser().phoneNumber}',
+        //     style: GoogleFonts.roboto(
+        //       fontSize: 18,
+        //       fontWeight: FontWeight.bold,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

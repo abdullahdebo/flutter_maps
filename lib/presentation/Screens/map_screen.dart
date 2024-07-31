@@ -4,15 +4,19 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_maps/business_logic/cubit/maps/maps_cubit.dart';
 import 'package:flutter_maps/business_logic/cubit/phone_auth/phone_auth_cubit.dart';
 import 'package:flutter_maps/constants/my_colors.dart';
 import 'package:flutter_maps/constants/strings.dart';
+import 'package:flutter_maps/data/models/PlaceSuggestion.dart';
 import 'package:flutter_maps/helpers/location_helper.dart';
 import 'package:flutter_maps/presentation/widgets/my_drawer.dart';
+import 'package:flutter_maps/presentation/widgets/place_item.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
+import 'package:uuid/uuid.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -23,6 +27,8 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   PhoneAuthCubit phoneAuthCubit = PhoneAuthCubit();
+
+  List<PlaceSuggestion> places = [];
 
   FloatingSearchBarController controller = FloatingSearchBarController();
 
@@ -96,7 +102,9 @@ class _MapScreenState extends State<MapScreen> {
         openAxisAlignment: 0.0,
         width: isPortrait ? 600 : 500,
         debounceDelay: Duration(milliseconds: 500),
-        onQueryChanged: (query) {},
+        onQueryChanged: (query) {
+          getPlacesSuggestions(query);
+        },
         onFocusChanged: (_) {},
         transition: CircularFloatingSearchBarTransition(),
         actions: [
@@ -117,10 +125,53 @@ class _MapScreenState extends State<MapScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: [],
+              children: [
+                buildSuggestionsBloc(),
+              ],
             ),
           );
         });
+  }
+
+  void getPlacesSuggestions(String query) {
+    final sessionToken = Uuid().v4();
+    BlocProvider.of<MapsCubit>(context)
+        .emitPlaceSuggestions(query, sessionToken);
+  }
+
+  Widget buildSuggestionsBloc() {
+    return BlocBuilder<MapsCubit, MapsState>(
+      builder: (context, state) {
+        if (state is PlacesLoaded) {
+          places = (state).places;
+          if (places.isNotEmpty) {
+            return buildPlacesList();
+          } else {
+            return Container();
+          }
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+
+  Widget buildPlacesList() {
+    return ListView.builder(
+      itemBuilder: (ctx, index) {
+        return InkWell(
+          onTap: () {
+            controller.close();
+          },
+          child: PlaceItem(
+            suggestion: places[index],
+          ),
+        );
+      },
+      itemCount: places.length,
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+    );
   }
 
   @override
