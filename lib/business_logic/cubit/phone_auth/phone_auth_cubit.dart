@@ -58,7 +58,9 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
 
   Future<void> signIn(PhoneAuthCredential credential) async {
     try {
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential).then((val) {
+        print(credential.accessToken);
+      });
       emit(PhoneOtpVerified());
     } catch (error) {
       emit(ErrorOccured(errorMsg: error.toString()));
@@ -70,6 +72,7 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
   }
 
   User getLoggedInUser() {
+    print(FirebaseAuth.instance.currentUser?.uid.toString());
     User firebaseUSer = FirebaseAuth.instance.currentUser!;
     return firebaseUSer;
   }

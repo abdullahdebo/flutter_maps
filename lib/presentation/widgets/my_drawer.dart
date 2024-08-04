@@ -38,23 +38,23 @@ class MyDrawer extends StatelessWidget {
         const SizedBox(
           height: 5,
         ),
-        Text(
-          '0534309491',
-          style: GoogleFonts.roboto(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        //     BlocProvider<PhoneAuthCubit>(
-        //   create: (context) => phoneAuthCubit,
-        //   child: Text(
-        //     '${phoneAuthCubit.getLoggedInUser().phoneNumber}',
-        //     style: GoogleFonts.roboto(
-        //       fontSize: 18,
-        //       fontWeight: FontWeight.bold,
-        //     ),
+        // Text(
+        //   '0534309491',
+        //   style: GoogleFonts.roboto(
+        //     fontSize: 18,
+        //     fontWeight: FontWeight.bold,
         //   ),
         // ),
+        BlocProvider<PhoneAuthCubit>(
+          create: (context) => phoneAuthCubit,
+          child: Text(
+            '${phoneAuthCubit.getLoggedInUser().phoneNumber}',
+            style: GoogleFonts.roboto(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ],
     );
   }

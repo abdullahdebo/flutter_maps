@@ -205,22 +205,24 @@ class LoginScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Form(
-          key: _phoneFormKey,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 32, vertical: 88),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildIntroText(),
-                SizedBox(height: 110),
-                _buildPhoneFormFiled(),
-                SizedBox(
-                  height: 60,
-                ),
-                _buildNextButton(context),
-                _buildPhoneNumberSubmitedBloc(),
-              ],
+        body: SingleChildScrollView(
+          child: Form(
+            key: _phoneFormKey,
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 32, vertical: 88),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildIntroText(),
+                  SizedBox(height: 110),
+                  _buildPhoneFormFiled(),
+                  SizedBox(
+                    height: 60,
+                  ),
+                  _buildNextButton(context),
+                  _buildPhoneNumberSubmitedBloc(),
+                ],
+              ),
             ),
           ),
         ),
