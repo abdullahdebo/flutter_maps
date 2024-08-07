@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_maps/constants/strings.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PlacesWebServices {
   late Dio dio;
@@ -44,6 +45,27 @@ class PlacesWebServices {
           'fields': 'geometry',
           'key': googleApiKey,
           'sessiontoken': sessionToken,
+        },
+      );
+      return response.data;
+    } catch (error) {
+      return Future.error(
+        'Place Loaction Error : ',
+        StackTrace.fromString('This is the Trace'),
+      );
+    }
+  }
+
+  // origin = Current Location
+  // destination = Serched For Location
+  Future<dynamic> getDirections(LatLng origin, LatLng destination) async {
+    try {
+      Response response = await dio.get(
+        directionsBaseUrl,
+        queryParameters: {
+          'origin': '${origin.latitude},${origin.longitude}',
+          'destination': '${destination.latitude},${destination.longitude}',
+          'key': googleApiKey,
         },
       );
       return response.data;
